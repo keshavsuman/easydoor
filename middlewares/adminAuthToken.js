@@ -13,7 +13,7 @@ async function adminAuthToken(req, res, next) {
     const [, token] = authHeader.split(' ');
     
     try {
-        const decoded = jsonwebtoken.verify(token, process.env.SECRET);
+        const decoded = jsonwebtoken.verify(token, 'Helloworld');
         req.user = decoded;
         return next();
     } catch (error) {
