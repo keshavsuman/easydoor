@@ -11,10 +11,9 @@ const productsSchema = mongoose.Schema({
     },
     productDescription: {
         type:String,
-
     },
     productImage: {
-        type:String
+        type:[{type:String}]
     },
     tags:{
         type:[{type:String,required:true}]
@@ -28,8 +27,6 @@ const productsSchema = mongoose.Schema({
     productStatus:{
         type:Boolean
     },
-
-    
 });
 
-module.exports = mongoose.model('products', productsSchema);
+module.exports = mongoose.model('product', productsSchema);

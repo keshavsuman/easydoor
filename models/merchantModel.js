@@ -10,9 +10,12 @@ const contactNumberSchema = new mongoose.Schema({
 });
 
 const merchantsSchema = new mongoose.Schema({
-    name: {
+    firstName: {
         type: String,
         rquired: true, 
+    },
+    lastName: {
+        type: String,
     },
     mobileNumber:{
         type:contactNumberSchema
@@ -24,7 +27,8 @@ const merchantsSchema = new mongoose.Schema({
         type: String,
     },
     address: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'address'
     },
     city: {
         type: String,

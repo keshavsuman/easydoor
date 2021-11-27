@@ -13,7 +13,7 @@ async function authToken(req, res, next) {
     const [, token] = authHeader.split(' ');
     
     try {
-        const decoded = jsonwebtoken.verify(token, process.env.SECRET);
+        const decoded = jsonwebtoken.verify(token,'helloworld');
         req.user = decoded;
         return next();
     } catch (error) {

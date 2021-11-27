@@ -87,9 +87,27 @@ async function updateMerchant(req, res) {
     });
 }
 
+async function deleteMerchant(req, res) {
+    const { merchantId } = req.params;
+    const merchant = await Merchant.findOne({ _id: merchantId });
+    if (!merchant) {
+        return res.status(404).json({
+        status: 404,
+        error: 'Merchant not found',
+        });
+    }
+    await merchant.remove();
+    return res.status(200).json({
+        status: 200,
+        message: 'Merchant deleted successfully',
+    });
+}
+
+
 module.exports = {
     getMerchant,
-    login,
     signup,
+    login,
     updateMerchant,
-}
+    deleteMerchant,
+};
