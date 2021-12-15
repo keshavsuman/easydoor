@@ -16,6 +16,12 @@ const adminSchema = mongoose.Schema({
     phoneNumber: {
         type: String,
     },
+    googleId:{
+        type: String,
+    },
+    profilePic:{
+        type: String,
+    }
 });
 
 module.exports = mongoose.model('admin', adminSchema);

@@ -26,7 +26,7 @@ const orderSchema = (merchantId) => new mongoose.Schema({
     }
 });
 
-function orderSchema(merchantId){
+function orderModel(merchantId){
     var orderSchema;
     try{
         orderSchema = mongoose.model(`${merchantId}_Order`);
@@ -36,4 +36,4 @@ function orderSchema(merchantId){
     return orderSchema;
 }
 
-module.exports = orderSchema;
+module.exports = orderModel;

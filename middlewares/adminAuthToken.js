@@ -6,7 +6,7 @@ async function adminAuthToken(req, res, next) {
     if (!authHeader) {
         return res.status(401).json({
         status: 401,
-        error: 'Token not provided',
+        message: 'Token not provided',
         });
     }
     
@@ -19,7 +19,7 @@ async function adminAuthToken(req, res, next) {
     } catch (error) {
         return res.status(401).json({
         status: 401,
-        error: 'Token invalid',
+        message: 'Token invalid',
         });
     }
 }

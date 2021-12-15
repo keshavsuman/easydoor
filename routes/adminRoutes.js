@@ -2,28 +2,23 @@ const express = require('express');
 const adminController = require('../controllers/adminController');
 const adminAuthToken = require('../middlewares/adminAuthToken');
 
+const authRoutes = require('./admin/authRoutes');
+const categoryRoutes = require('./admin/categoryRoutes');
+const merchantRoutes = require('./admin/merchantRoutes');
+const productsRoutes = require('./admin/productsRoutes');
+const orderRoutes = require('./admin/orderRoutes');
 const router = express.Router();
+const s3fileUpload = require('../helpers/s3fileUpload');
 
-router.post('/login',adminController.login);
-router.post('/signup',adminController.signup);
+router.use('/auth',authRoutes);
+// router.use(adminAuthToken);
 
-router.use(adminAuthToken);
-router.post('/createProduct',adminController.addProduct);
-router.post('/getProducts',adminController.getProducts);
-router.post('/updateProduct/:id',adminController.updateProduct);
-router.delete('/deleteProduct/:id',adminController.deleteProduct);
-router.get('/searchProducts/:productName',adminController.searchProducts);
+router.use('/product',adminAuthToken,productsRoutes);
+router.use('/merchant',adminAuthToken,merchantRoutes);
+router.use('/category',adminAuthToken,categoryRoutes);
+router.use('/orders',adminAuthToken,orderRoutes);
 
-router.post('/createCategory',adminController.createCategory);
-router.post('/getCategories',adminController.getCategories);
-router.get('/searchCategories/:categoryName',adminController.searchCategories);
-router.post('/updateCategory/:id',adminController.updateCategory);
-router.delete('/deleteCategory/:id',adminController.deleteCategory);
-
-router.post('/createOrder',adminController.createOrder);
-router.post('/getOrders',adminController.getOrders);
-router.post('/updateOrder/:orderId',adminController.updateOrder);
-router.delete('/deletePrder/:orderId',adminController.deleteOrder);
+router.post('/uploadImageAndGetUrl',adminAuthToken,s3fileUpload.single('file'),adminController.uploadImageAndGetUrl);
 
 
 module.exports = router;

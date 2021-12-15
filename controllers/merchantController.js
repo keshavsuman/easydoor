@@ -104,6 +104,7 @@ async function deleteMerchant(req, res) {
 }
 
 
+
 module.exports = {
     getMerchant,
     signup,

@@ -1,5 +1,5 @@
-const Merchant = require('../models/merchantModel');
-const User = require('../models/userModel');
+const Merchant = require('../../models/merchantModel');
+const User = require('../../models/userModel');
 
 async function getUser(req, res) {
   try {

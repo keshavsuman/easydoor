@@ -27,6 +27,8 @@ const productsSchema = mongoose.Schema({
     productStatus:{
         type:Boolean
     },
+},{
+    timestamps:true
 });
 
 module.exports = mongoose.model('product', productsSchema);
