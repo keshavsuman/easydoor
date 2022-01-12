@@ -1,6 +1,6 @@
 const merchantRoutes = require('./merchantRoutes');
-const userRoutes = require('./userRoutes');
-const adminRoutes = require('./adminRoutes');
+const userRoutes = require('./user/userRoutes');
+const adminRoutes = require('./admin/adminRoutes');
 
 const express = require('express');
 const router = express.Router();

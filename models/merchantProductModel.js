@@ -5,29 +5,36 @@ const merchantProductSchema = mongoose.Schema({
         type:String,
         trim:true
     },
-    productDescription:{
-        type:String,
-        trim:true
-    },
-    productPrice:{
-        type:Number
-    },
-    productImage: {
-        type:[{type:String}]
-    },
+    variants:[{
+        productPrice: {
+            type:Number,
+            required:true
+        },
+        discountedPrice:{
+            type:Number,
+        },
+        productDescription: {
+            type:String,
+        },
+        productImage: {
+            type:[{type:String}]
+        },
+        quantity:{
+            type:Number,
+        },
+        sellingUnit:{
+            type:String,
+        },
+        productStatus:{
+            type:Boolean
+        },
+    }],
     tags:{
         type:[{type:String,required:true}]
-    },
-    quantity:{
-        type:Number,
-    },
-    sellingUnit:{
-        type:String,
     },
     productStatus:{
         type:Boolean
     },
-
 });
 
 function merchantProductModel(merchantId){

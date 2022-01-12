@@ -1,5 +1,14 @@
 const mongoose = require('mongoose');
 
+const contactNumberSchema = new mongoose.Schema({
+    countryCode: {
+        type: String,
+    },
+    number: {
+        type: String,
+    }
+});
+
 const userSchema = new mongoose.Schema({
     firstName:{
         type: String,
@@ -15,6 +24,18 @@ const userSchema = new mongoose.Schema({
     },
     addresses:{
         type:[{type:mongoose.Schema.Types.ObjectId,ref:'address'}]
+    },
+    city:{
+        type:String
+    },
+    firebaseId:{
+        type:String
+    },
+    FCMtoken:{
+        type:String
+    },
+    mobileNumber:{
+        type:contactNumberSchema
     },
 },{
     timestamps: true

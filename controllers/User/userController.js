@@ -1,77 +1,49 @@
 const Merchant = require('../../models/merchantModel');
 const User = require('../../models/userModel');
 
-async function getUser(req, res) {
-  try {
-    const user = await User.findById(req.params.id);
-    res.json(user);
-  } catch (err) {
-    res.json({ message: err });
+
+async function login(req,res){
+  try{
+    const user = User.find({
+      firebaseId:req.body.firebaseId
+    });
+    res.status(200).json({
+      status:200,
+      data:user,
+      message:"loggedin successfully"
+    });
+  }catch(error){
+    console.log(err);
+    res.status(500).json({
+        status:500,
+        data:null,
+        message:err.message
+    });
   }
 }
 
-async function getUsers(req, res) {
-  try {
-    const merchants = await Merchant.find();
-    res.json(merchants);
-  } catch (err) {
-    res.json({ message: err });
+async function signup(req,res){
+  try{
+    User.create({
+      firstName:req.body.name.split(' ')[0],
+      lastName:req.body.name.split(' ')[0],
+      email:req.body.email,
+      password:req.body.password,
+      addresses:[]
+    });
+  }catch(error){
+    console.log(err);
+    res.status(500).json({
+        status:500,
+        data:null,
+        message:err.message
+    });
   }
 }
 
-async function createUser(req, res) {
-  const merchant = new Merchant({
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    address: req.body.address,
-    city: req.body.city,
-    state: req.body.state,
-    zip: req.body.zip,
-    website: req.body.website,
-    image: req.body.image,
-    description: req.body.description,
-    user: req.body.user,
-  });
-  try {
-    const savedMerchant = await merchant.save();
-    res.json(savedMerchant);
-  } catch (err) {
-    res.json({ message: err });
-  }
-}
 
-async function updateUser(req, res) {
-  try {
-    const merchant = await Merchant.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(merchant);
-  } catch (err) {
-    res.json({ message: err });
-  }
-}
-
-async function deleteUser(req, res) {
-    try {
-      const merchant = await Merchant.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
-      );
-      res.json(merchant);
-    } catch (err) {
-      res.json({ message: err });
-    }
-}
 
 module.exports = {
-    getUser,
-    getUsers,
-    updateUser,
-    createUser,
-    deleteUser,
-
+  login,
+  signup
 };
