@@ -3,6 +3,7 @@ const Joi = require('joi');
 
 module.exports.addProduct = async (req, res) => {
     try {
+        console.log(req.body);
         const {error,value} = validateProduct(req.body);
         if(error){
             res.status(403).json({
@@ -115,6 +116,7 @@ module.exports.searchProducts = async (req, res) => {
 function validateProduct(product){
     const schema = Joi.object({
         productName:Joi.string().min(3).required(),
+        productDescription:Joi.string().optional(),
         tags:Joi.array().items(Joi.string()).required(),
         variants:Joi.array().items(Joi.object({
             productPrice:Joi.number().required(),
