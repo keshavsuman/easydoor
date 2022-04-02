@@ -1,6 +1,19 @@
 const mongoose  = require('mongoose');
 
 const addressSchema = mongoose.Schema({
+    lan1:{
+        type:String,
+        required:true
+    },
+    lane2:{
+        type:String,
+    },
+    city:{
+        type:String,
+    },
+    state:{
+        type:String,
+    },
     pincode:{
         type:String
     },

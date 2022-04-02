@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 
-async function authToken(req, res, next) {
+async function merchantAuthToken(req, res, next) {
     const authHeader = req.headers.authorization;
     
     if (!authHeader) {
@@ -13,8 +13,8 @@ async function authToken(req, res, next) {
     const [, token] = authHeader.split(' ');
     
     try {
-        const decoded = jsonwebtoken.verify(token,'helloworld');
-        req.user = decoded;
+        const decoded = jsonwebtoken.verify(token, 'Helloworld');
+        req.merchant = decoded;
         return next();
     } catch (error) {
         return res.status(401).json({
@@ -24,4 +24,4 @@ async function authToken(req, res, next) {
     }
 }
 
-module.exports=authToken;
+module.exports = merchantAuthToken;

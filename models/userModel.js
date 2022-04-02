@@ -18,8 +18,12 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type: String,
+        unique: true,
     },
     password:{
+        type: String,
+    },
+    profilePic:{
         type: String,
     },
     addresses:{
@@ -35,7 +39,7 @@ const userSchema = new mongoose.Schema({
         type:String
     },
     mobileNumber:{
-        type:contactNumberSchema
+        type:String
     },
 },{
     timestamps: true

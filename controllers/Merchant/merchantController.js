@@ -16,8 +16,8 @@ async function getMerchant(req, res) {
 }
 
 async function signup(req, res) {
-    const { email, name, password } = req.body;
-    const merchant = await Merchant.findOne({ email: email });
+    const { businessName,ownerName,mobileNumber,storeImages } = req.body;
+    const merchant = await Merchant.findOne({ mobileNumber: mobileNumber });
     if (merchant) {
         return res.status(409).json({
         status: 409,
@@ -25,17 +25,17 @@ async function signup(req, res) {
         });
     }
     const newMerchant = new Merchant({
-        email: email,
-        name: name,
-        password: password,
+        businessName: businessName,
+        firstName: ownerName.split(" ")[0],
+        lastName: ownerName.split(" ").splice(0,1).join(" "),
+        mobileNumber: mobileNumber,
+        storeImages:storeImages
     });
     await newMerchant.save();
     return res.status(201).json({
         status: 201,
-        data: {
-        merchantId: newMerchant._id,
-        merchantName: newMerchant.name,
-        },
+        message:"Merchant created Successfully",
+        data: newMerchant,
     });
 }
 

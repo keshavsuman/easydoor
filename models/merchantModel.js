@@ -39,6 +39,20 @@ const merchantsSchema = new mongoose.Schema({
     },
     pincode: {
         type: Number
+    },
+    storeImages:{
+        type:[{type:String}]
+    },
+    isNumberVerified:{
+        type:Boolean,
+        default:false
+    },
+    isMailVerified:{
+        type:Boolean,
+        default:false
+    },
+    keywords:{
+        type:[{type:String}]
     }
 });
 
