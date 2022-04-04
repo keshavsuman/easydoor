@@ -78,7 +78,7 @@ module.exports.getCategories = async (req, res) => {
 module.exports.searchCategories = async (req, res) => {
     try {
         const categories = await categoryModel.find({
-                $regex:{name:req.params.categoryName,$options:'i'},
+            name:{$regex:req.params.categoryName,$options:'i'},
         }).limit(req.body.limit??30);
         res.status(200).json({
             status:200,

@@ -1,7 +1,7 @@
 const mongoose  = require('mongoose');
 
 const addressSchema = mongoose.Schema({
-    lan1:{
+    lane1:{
         type:String,
         required:true
     },

@@ -1,6 +1,22 @@
-const Cart = require('../../models/cartModel');
+const cartModel = require('../../models/cartModel');
 
-module.exports.getCarts = async (req,res)=>{
+module.exports.getCart = async (req,res)=>{
+    try{
+
+    }catch{
+         
+    }
+}
+
+module.exports.updateQuantity = async (req,res)=>{
+    try{
+
+    }catch{
+         
+    }
+}
+
+module.exports.removeFromCart = async (req,res)=>{
     try{
 
     }catch{
