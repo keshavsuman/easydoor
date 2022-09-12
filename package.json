@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon src/index.ts"
   },
   "author": "keshav suman",
   "license": "ISC",
   "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/mongoose": "^5.11.97",
     "aws-sdk": "^2.1034.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
