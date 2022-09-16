@@ -7,3 +7,8 @@ export async function createShop(req: Request, res: Response) {
     res.status(500).send();
   }
 }
+
+export async function getShops(req: Request, res: Response) {
+  try {
+  } catch (error) {}
+}

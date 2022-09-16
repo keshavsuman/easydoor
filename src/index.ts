@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import indexRouter from "./app.routes";
 
 dotenv.config({
   path: ".env",
@@ -16,7 +17,7 @@ app.use(
 );
 
 app.use(express.json());
-// app.use("/api/v1", indexRouter);
+app.use("/api/v1", indexRouter);
 // app.use();
 
 mongoose.connect(process.env.MONGODB_URL!);

@@ -33,6 +33,10 @@ const merchantSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+      type: String,
+      default: "role",
+    },
   },
   {
     timestamps: true,
