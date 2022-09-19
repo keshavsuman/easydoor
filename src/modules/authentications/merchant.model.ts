@@ -35,12 +35,18 @@ const merchantSchema: Schema = new Schema(
     },
     role: {
       type: String,
-      default: "role",
+      default: "merchant",
     },
   },
   {
     timestamps: true,
   }
 );
+
+merchantSchema.method("toJSON", function () {
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+  return object;
+});
 
 export default mongoose.model<Merchant>("merchants", merchantSchema);

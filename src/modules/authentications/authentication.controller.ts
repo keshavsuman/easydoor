@@ -5,6 +5,7 @@ import CreateAdminDto from "./dto/createAdmin.dto";
 import { Admin } from "./admin.model";
 import CreateUserDto from "./dto/createUser.dto";
 import { User } from "./user.model";
+import HttpResponse from "../../utils/httpResponse";
 
 export async function login(req: Request, res: Response, next: NextFunction) {
   try {
@@ -17,116 +18,88 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         );
         if (admin) {
           if (
-            await authenticationService.verifyPassword(admin.password, password)
+            await authenticationService.verifyPassword(password, admin.password)
           ) {
-            res.status(200).send({
-              status: 200,
-              message: "Admin loggedin successfully",
-              data: {
+            next(
+              new HttpResponse("Admin loggedin successfully", 200, {
                 admin,
-                token: authenticationService.generateToken(admin),
-              },
-            });
+                token: authenticationService.generateToken(admin.toJSON()),
+              })
+            );
           } else {
-            res.status(400).send({
-              message: "Password mismatched",
-              status: 400,
-            });
+            next(new HttpResponse("Password mismatched", 400));
           }
         } else {
-          res.status(400).send({
-            message: "Admin doesn't exists with this email",
-            status: 400,
-          });
+          next(new HttpResponse("Admin doesn't exists with this email", 400));
         }
         break;
       case "user":
         const user = await authenticationService.getUserByEmail(email);
         if (user) {
           if (
-            await authenticationService.verifyPassword(user.password, password)
+            await authenticationService.verifyPassword(password, user.password)
           ) {
-            res.status(200).send({
-              status: 200,
-              message: "User loggedin successfully",
-              data: {
+            next(
+              new HttpResponse("User loggedin successfully", 200, {
                 user,
-                token: authenticationService.generateToken(user),
-              },
-            });
+                token: authenticationService.generateToken(user.toJSON()),
+              })
+            );
           } else {
-            res.status(400).send({
-              message: "Password doesn't matched",
-              status: 400,
-            });
+            next(new HttpResponse("Password doesn't matched", 400));
           }
         } else {
-          res.status(400).send({
-            message: "User with this email doesn't exists",
-            status: 400,
-          });
+          next(new HttpResponse("User with this email doesn't exists", 400));
         }
         break;
       case "merchant":
         const merchant = await authenticationService.getMerchantByEmail(email);
         if (merchant) {
           if (
-            authenticationService.verifyPassword(merchant.password, password)
+            authenticationService.verifyPassword(password, merchant.password)
           ) {
-            res.status(200).send({
-              status: 200,
-              message: "Merchant loggedin successfully",
-              data: {
+            next(
+              new HttpResponse("Merchant loggedin successfully", 200, {
                 merchant,
-                token: authenticationService.generateToken(merchant),
-              },
-            });
+                token: authenticationService.generateToken(merchant.toJSON()),
+              })
+            );
           } else {
-            res.status(400).send({
-              message: "Password mismatched",
-              status: 400,
-            });
+            next(new HttpResponse("Password mismatched", 400));
           }
         } else {
-          res.status(400).send({
-            message: "Merchant with this email Id doesn't exists",
-            status: 400,
-          });
+          next(
+            new HttpResponse("Merchant with this email Id doesn't exists", 400)
+          );
         }
         break;
       default:
-        res.status(400).send({
-          message: "User type not supportable",
-          status: 400,
-        });
+        next(new HttpResponse("User type not supportable", 400));
         break;
     }
   } catch (error) {
-    res.status(500).send("");
+    next(new HttpResponse((error as Error).message, 500));
   }
 }
 
-export async function signup(req: Request, res: Response) {
+export async function signup(req: Request, res: Response, next: NextFunction) {
   try {
     const role = req.params.role;
     const { name, email, password } = req.body;
     switch (role) {
       case "admin":
         if (await authenticationService.getAdminByEmail(email)) {
-          res.status(400).send({
-            status: 400,
-            message: "Admin with this email already exists",
-          });
+          next(new HttpResponse("Admin with this email already exists", 400));
         } else {
           const createAdminDto: CreateAdminDto = new CreateAdminDto(
             name,
             email,
-            password
+            authenticationService.hashPassword(password)
           );
           const admin = await authenticationService.createAdmin(createAdminDto);
           res.status(200).send({
             data: {
-              token: authenticationService.generateToken(admin.toObject()),
+              token: authenticationService.generateToken(admin.toJSON()),
               user: admin,
             },
           });
@@ -142,14 +115,14 @@ export async function signup(req: Request, res: Response) {
           const createUserDto: CreateUserDto = new CreateUserDto(
             name,
             email,
-            password
+            authenticationService.hashPassword(password)
           );
           const user: User = await authenticationService.createUser(
             createUserDto
           );
           res.status(200).send({
             data: {
-              token: authenticationService.generateToken(user.toObject()),
+              token: authenticationService.generateToken(user.toJSON()),
               user: user,
             },
           });
@@ -165,14 +138,14 @@ export async function signup(req: Request, res: Response) {
           const createMerchantDto: CreateMerchantDto = new CreateMerchantDto(
             name,
             email,
-            password
+            authenticationService.hashPassword(password)
           );
           const merchant = await authenticationService.createMerchant(
             createMerchantDto
           );
           res.status(200).send({
             data: {
-              token: authenticationService.generateToken(merchant.toObject()),
+              token: authenticationService.generateToken(merchant.toJSON()),
               user: merchant,
             },
           });

@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import indexRouter from "./app.routes";
+import ExceptionHandler from "./utils/exceptionHandler";
 
 dotenv.config({
   path: ".env",
@@ -24,6 +25,8 @@ mongoose.connect(process.env.MONGODB_URL!);
 mongoose.connection.on("connected", () => {
   console.log("connected to mongodb");
 });
+
+app.use(ExceptionHandler);
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running on port " + process.env.PORT);

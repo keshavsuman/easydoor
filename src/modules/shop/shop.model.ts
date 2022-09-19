@@ -16,7 +16,8 @@ const shopSchma: Schema = new mongoose.Schema({
     type: String,
   },
   location: {
-    // type:
+    type: { type: String },
+    coordinates: [Number],
   },
   logo: {
     type: String,
@@ -27,6 +28,10 @@ const shopSchma: Schema = new mongoose.Schema({
   },
   contactNumber: {
     type: Number,
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 

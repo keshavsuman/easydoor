@@ -33,10 +33,19 @@ const userSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+      type: String,
+      default: "user",
+    },
   },
   {
     timestamps: true,
   }
 );
 
+userSchema.method("toJSON", function () {
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+  return object;
+});
 export default mongoose.model<User>("users", userSchema);

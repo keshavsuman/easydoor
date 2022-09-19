@@ -33,10 +33,20 @@ const adminSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+      type: String,
+      default: "admin",
+    },
   },
   {
     timestamps: true,
   }
 );
+
+adminSchema.method("toJSON", function () {
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+  return object;
+});
 
 export default mongoose.model<Admin>("admins", adminSchema);
