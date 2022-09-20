@@ -45,6 +45,8 @@ const addressSchema: Schema = new mongoose.Schema({
   },
 });
 
+addressSchema.index({ loc: "2dsphere" });
+
 addressSchema.method("toJSON", function () {
   const { __v, _id, ...object } = this.toObject();
   object.id = _id;

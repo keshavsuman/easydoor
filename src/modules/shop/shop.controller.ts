@@ -88,7 +88,7 @@ export async function deleteShop(
       new mongoose.Types.ObjectId(id)
     );
     if (shop) {
-      next(new HttpResponse("Shop deleted sucessfully", 200, shop.toJSON()));
+      next(new HttpResponse("Shop deleted successfully", 200, shop.toJSON()));
     } else {
       next(new HttpResponse("Shop not found with this Id", 400));
     }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon src/index.ts"
   },
   "author": "keshav suman",
@@ -28,5 +28,8 @@
     "multer-s3": "^2.10.0",
     "nodemon": "^2.0.14",
     "socket.io": "^4.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.3"
   }
 }
