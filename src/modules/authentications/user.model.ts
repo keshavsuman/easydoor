@@ -37,6 +37,10 @@ const userSchema: Schema = new Schema(
       type: String,
       default: "user",
     },
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "address",
+    },
   },
   {
     timestamps: true,
@@ -48,4 +52,4 @@ userSchema.method("toJSON", function () {
   object.id = _id;
   return object;
 });
-export default mongoose.model<User>("users", userSchema);
+export default mongoose.model<User>("user", userSchema);

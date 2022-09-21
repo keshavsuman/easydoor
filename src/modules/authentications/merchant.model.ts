@@ -49,4 +49,4 @@ merchantSchema.method("toJSON", function () {
   return object;
 });
 
-export default mongoose.model<Merchant>("merchants", merchantSchema);
+export default mongoose.model<Merchant>("merchant", merchantSchema);

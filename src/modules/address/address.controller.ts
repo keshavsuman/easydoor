@@ -12,7 +12,7 @@ export async function createAddress(
 ) {
   try {
     const address: Address = await addressService.createAddress({
-      userId: new mongoose.Types.ObjectId(res.get("id")),
+      user: new mongoose.Types.ObjectId(res.get("id")),
       ...req.body,
       role: res.get("role"),
     });

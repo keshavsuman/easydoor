@@ -7,7 +7,7 @@ export interface Address extends Document {
   state: string;
   pincode: number;
   location: Object;
-  userId: mongoose.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
   isDeleted: boolean;
   role: string;
 }
@@ -33,7 +33,7 @@ const addressSchema: Schema = new mongoose.Schema({
     type: { type: String },
     coordinates: [Number],
   },
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
   },
   role: {

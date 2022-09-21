@@ -24,6 +24,6 @@ export async function getAddress(
   userId: mongoose.Types.ObjectId
 ): Promise<Address[]> {
   return AddressModel.find({
-    userId: userId,
+    user: userId,
   });
 }

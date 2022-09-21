@@ -25,6 +25,7 @@ const shopSchma: Schema = new mongoose.Schema({
   merchant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "merchant",
+    required: true,
   },
   contactNumber: {
     type: Number,
