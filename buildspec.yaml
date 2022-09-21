@@ -44,7 +44,7 @@ phases:
 #reports:
   #report-name-or-arn:
     #files:
-      # - location
+      # - location 
       # - location
     #base-directory: location
     #discard-paths: yes
