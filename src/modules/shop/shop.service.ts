@@ -1,4 +1,3 @@
-import { HttpResponse } from "aws-sdk";
 import mongoose, { Aggregate } from "mongoose";
 import shopModel, { Shop } from "./shop.model";
 

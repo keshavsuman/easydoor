@@ -1,5 +1,7 @@
 import mongoose, { Aggregate } from "mongoose";
+import categoryModel, { Category } from "./category.model";
 import productModel, { Product } from "./product.model";
+import subCategoryModel, { SubCategory } from "./subCategory.model";
 
 export async function createProduct(product: any) {
   const newproduct: Product = await productModel.create(product);
@@ -27,8 +29,67 @@ export async function getProducts(
   return await aggregate.exec();
 }
 
-export async function deleteProductById(productId: mongoose.Types.ObjectId) {
+export async function deleteProductById(
+  productId: mongoose.Types.ObjectId
+): Promise<Product | null> {
   const product = await productModel.findByIdAndUpdate(productId, {
     isDeleted: true,
   });
+  return product;
+}
+
+export async function createCategory(
+  createCategoryDto: any
+): Promise<Category> {
+  const category = await categoryModel.create(createCategoryDto);
+  return category;
+}
+
+export async function updateCategory(
+  id: mongoose.Types.ObjectId,
+  updateCategoryDto: any
+): Promise<Category | null> {
+  const category = await categoryModel.findByIdAndUpdate(
+    id,
+    updateCategoryDto,
+    { new: true }
+  );
+  return category;
+}
+
+export async function getCategoryById(
+  id: mongoose.Types.ObjectId
+): Promise<Category | null> {
+  const category = await categoryModel.findById(id);
+  return category;
+}
+
+export async function createSubCategory(
+  createSubCategoryDto: any
+): Promise<SubCategory> {
+  const subCategory = await subCategoryModel.create(createSubCategoryDto);
+  return subCategory;
+}
+
+export async function getSubCategoriesByCategoryId(
+  id: mongoose.Types.ObjectId
+): Promise<Category | null> {
+  return await categoryModel.findById(id);
+}
+
+export async function updateSubCategory(
+  id: mongoose.Types.ObjectId,
+  body: any
+): Promise<SubCategory | null> {
+  const subCategory = await subCategoryModel.findByIdAndUpdate(id, body, {
+    new: true,
+  });
+  return subCategory;
+}
+
+export async function deleteSubCategory(
+  id: mongoose.Types.ObjectId
+): Promise<SubCategory | null> {
+  const subCategory = await subCategoryModel.findByIdAndDelete(id);
+  return subCategory;
 }

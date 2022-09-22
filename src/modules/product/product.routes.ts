@@ -7,4 +7,15 @@ routes.get("/getProducts", productController.getProducts);
 routes.put("/updateProduct/:productId", productController.updateProduct);
 routes.delete("/deleteProduct/:productId", productController.deleteProduct);
 
+//Category
+
+routes.post("/createCategory", productController.createCategory);
+routes.post("/updateCategory", productController.updateCategory);
+routes.post("/deleteCategory", productController.deleteCategory);
+
+//Sub Category
+routes.post("/createCategory", productController.createSubCategory);
+routes.post("/updateCategory", productController.updateSubCategory);
+routes.post("/deleteCategory", productController.deleteSubCategory);
+
 export default routes;
