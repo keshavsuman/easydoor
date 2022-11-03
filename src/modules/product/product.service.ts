@@ -13,20 +13,35 @@ export async function getProducts(
   page: number,
   searchValue: string | undefined = undefined,
   category: mongoose.Types.ObjectId | undefined = undefined,
-  subCategory: mongoose.Types.ObjectId | undefined = undefined
+  subCategory: mongoose.Types.ObjectId | undefined = undefined,
+  merchantId: mongoose.Types.ObjectId | undefined = undefined,
+  shopId: mongoose.Types.ObjectId | undefined = undefined
 ) {
   const aggregate: Aggregate<any[]> = productModel.aggregate();
 
   const matchObject: any = {
     isDeleted: false,
   };
-  searchValue
-    ? (matchObject.productName = { $regex: searchValue, $options: "i" })
-    : "";
+
+  if (
+    searchValue &&
+    (matchObject.productName = { $regex: searchValue, $options: "i" })
+  )
+    if (category && (matchObject.category = category))
+      if (subCategory && (matchObject.subCategory = subCategory))
+        if (merchantId && (matchObject.merchant = merchantId))
+          if (shopId && (matchObject.shop = shopId)) console.log(matchObject);
   aggregate.match(matchObject);
   aggregate.limit(limit);
   aggregate.skip(limit * (page - 1));
   return await aggregate.exec();
+}
+
+export async function updateProduct(
+  productId: mongoose.Types.ObjectId,
+  updateBody: any
+) {
+  return productModel.findByIdAndUpdate(productId, updateBody, { new: true });
 }
 
 export async function deleteProductById(

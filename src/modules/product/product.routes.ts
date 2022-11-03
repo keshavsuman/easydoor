@@ -1,9 +1,14 @@
 import { Router } from "express";
+import authToken from "../../middlewares/authToken";
 import * as productController from "./product.controller";
 const routes = Router();
 
 routes.post("/createProduct", productController.createProduct);
-routes.get("/getProducts", productController.getProducts);
+routes.get(
+  "/getProducts",
+  authToken("admin", "merchant", "user"),
+  productController.getProducts
+);
 routes.put("/updateProduct/:productId", productController.updateProduct);
 routes.delete("/deleteProduct/:productId", productController.deleteProduct);
 

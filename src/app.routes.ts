@@ -8,9 +8,9 @@ import authToken from "./middlewares/authToken";
 const routes = Router();
 
 routes.use("/", authenticationRoutes);
-routes.use("/:role/shop", authToken, shopRoutes);
-routes.use("/:role/order", authToken, orderRoutes);
-routes.use("/:role/product", authToken, productRoutes);
-routes.use("/:role/address", authToken, addressRoutes);
+routes.use("/shop", authToken(), shopRoutes);
+routes.use("/order", authToken(), orderRoutes);
+routes.use("/product", authToken(), productRoutes);
+routes.use("/address", authToken(), addressRoutes);
 
 export default routes;

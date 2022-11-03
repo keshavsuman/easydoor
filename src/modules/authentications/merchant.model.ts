@@ -10,7 +10,11 @@ export interface Merchant extends Document {
   updatedAt: Date;
   createdAt: Date;
 }
-
+export enum MerchantStatus {
+  Block = "block",
+  Unblock = "unblock",
+  Active = "active",
+}
 const merchantSchema: Schema = new Schema(
   {
     firstName: {
@@ -36,6 +40,11 @@ const merchantSchema: Schema = new Schema(
     role: {
       type: String,
       default: "merchant",
+    },
+    status: {
+      type: String,
+      enum: MerchantStatus,
+      default: "active",
     },
   },
   {

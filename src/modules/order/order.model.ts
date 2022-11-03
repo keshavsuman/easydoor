@@ -44,6 +44,11 @@ const orderModel: Schema = new mongoose.Schema(
     addressId: {
       type: mongoose.Schema.Types.ObjectId,
     },
+    status: {
+      type: String,
+      enum: ["pending", "cancelled", "completed"],
+      default: "pending",
+    },
   },
   {
     timestamps: true,
