@@ -1,16 +1,15 @@
 import { Router } from "express";
 import authenticationRoutes from "./modules/authentications/authentication.routes";
-import shopRoutes from "./modules/shop/shop.routes";
-import orderRoutes from "./modules/order/order.routes";
-import productRoutes from "./modules/product/product.routes";
 import addressRoutes from "./modules/address/address.routes";
+import commonRoutes from "./modules/common/common.routes";
+import userRoutes from "./modules/user/user.routes";
 import authToken from "./middlewares/authToken";
+
 const routes = Router();
 
-routes.use("/", authenticationRoutes);
-routes.use("/shop", authToken(), shopRoutes);
-routes.use("/order", authToken(), orderRoutes);
-routes.use("/product", authToken(), productRoutes);
+routes.use("/authentication", authenticationRoutes);
+routes.use("/user", authToken(), userRoutes);
 routes.use("/address", authToken(), addressRoutes);
+routes.use("/common", authToken(), commonRoutes);
 
 export default routes;

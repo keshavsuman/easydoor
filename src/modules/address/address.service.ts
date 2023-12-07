@@ -25,5 +25,6 @@ export async function getAddress(
 ): Promise<Address[]> {
   return AddressModel.find({
     user: userId,
+    isDeleted: false,
   });
 }

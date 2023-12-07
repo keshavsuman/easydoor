@@ -3,9 +3,12 @@ import * as authenticationService from "./authentication.service";
 import CreateMerchantDto from "./dto/createMerchant.dto";
 import CreateAdminDto from "./dto/createAdmin.dto";
 import { Admin } from "./admin.model";
-import CreateUserDto from "./dto/createUser.dto";
+import CreateUserDto, { CreateUserByPhoneDto, OTP } from "./dto/createUser.dto";
 import { User } from "./user.model";
 import HttpResponse from "../../utils/httpResponse";
+import * as userService from "../user/user.service";
+import { UpdateUserOtpDto } from "../user/dto/updateUser.dto";
+import httpStatus from "http-status";
 
 export async function login(req: Request, res: Response, next: NextFunction) {
   try {
@@ -85,14 +88,14 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 export async function signup(req: Request, res: Response, next: NextFunction) {
   try {
     const role = req.params.role;
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     switch (role) {
       case "admin":
         if (await authenticationService.getAdminByEmail(email)) {
           next(new HttpResponse("Admin with this email already exists", 400));
         } else {
           const createAdminDto: CreateAdminDto = new CreateAdminDto(
-            name,
+            firstName,
             email,
             authenticationService.hashPassword(password)
           );
@@ -113,7 +116,8 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
           });
         } else {
           const createUserDto: CreateUserDto = new CreateUserDto(
-            name,
+            firstName,
+            lastName,
             email,
             authenticationService.hashPassword(password)
           );
@@ -136,7 +140,7 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
           });
         } else {
           const createMerchantDto: CreateMerchantDto = new CreateMerchantDto(
-            name,
+            firstName,
             email,
             authenticationService.hashPassword(password)
           );
@@ -166,5 +170,65 @@ export async function socialLogin(req: Request, res: Response) {
   try {
   } catch (error) {
     res.status(500).send();
+  }
+}
+
+export async function sendOTP(req: Request, res: Response) {
+  try {
+    const user = await authenticationService.getUserByPhone(
+      req.body.mobileNumber
+    );
+    const otp = authenticationService.generateOTP();
+    if (user) {
+      // await sendSMS(message, req.body.mobileNumber);
+      const updatedUser = await userService.updateUserOtp(
+        user._id,
+        new UpdateUserOtpDto(otp.toString(), req.body.mobileNumber)
+      );
+      res.status(200).send({
+        message: "OTP sent successfully",
+        statusCode: httpStatus.OK,
+        data: updatedUser,
+      });
+    } else {
+      const user = await authenticationService.createUserByPhone(
+        new CreateUserByPhoneDto(otp.toString(), req.body.mobileNumber)
+      );
+      // await sendSMS(message, req.body.mobileNumber);
+      res.status(200).send({
+        message: "OTP sent successfully",
+        statusCode: httpStatus.OK,
+        data: user,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function verifyOTP(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { mobileNumber, otp } = req.body;
+    const user = await authenticationService.getUserByPhone(mobileNumber);
+    if (user) {
+      if (user.otp.otp === otp) {
+        next(
+          new HttpResponse("User verified successfully", 200, {
+            user,
+            token: authenticationService.generateToken(user.toJSON()),
+          })
+        );
+      } else {
+        next(new HttpResponse("OTP mismatched", 400));
+      }
+    } else {
+      next(new HttpResponse("User doesn't exists with this phone number", 400));
+    }
+  } catch (error) {
+    next(new HttpResponse((error as Error).message, 500));
   }
 }

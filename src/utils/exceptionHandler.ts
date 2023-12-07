@@ -8,7 +8,7 @@ export default function ExceptionHandler(
   next: NextFunction
 ) {
   res.status(exception.statusCode).send({
-    status: exception.statusCode,
+    statusCode: exception.statusCode,
     message: exception.message,
     data: exception.data,
   });

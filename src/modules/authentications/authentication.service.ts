@@ -5,7 +5,7 @@ import CreateMerchantDto from "./dto/createMerchant.dto";
 import CreateAdminDto from "./dto/createAdmin.dto";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import CreateUserDto from "./dto/createUser.dto";
+import CreateUserDto, { CreateUserByPhoneDto } from "./dto/createUser.dto";
 
 export async function getUserByEmail(email: String): Promise<User | null> {
   const user = await UserModel.findOne({
@@ -14,6 +14,12 @@ export async function getUserByEmail(email: String): Promise<User | null> {
   return user;
 }
 
+export async function getUserByPhone(phone: String): Promise<User | null> {
+  const user = await UserModel.findOne({
+    mobileNumber: phone,
+  });
+  return user;
+}
 // export async function
 export function verifyPassword(
   password: string,
@@ -60,6 +66,19 @@ export async function createUser(createUserDto: CreateUserDto): Promise<User> {
   return merchant;
 }
 
+export async function createUserByPhone(
+  createUserByPhoneDto: CreateUserByPhoneDto
+): Promise<User | null> {
+  const user = await UserModel.create(createUserByPhoneDto);
+  return user;
+}
+
 export function generateToken(object: any) {
   return jsonwebtoken.sign(object, process.env.JWT_SECRET_KEY!);
+}
+
+export function generateOTP() {
+  if (process.env.NODE_ENV === "development") return 123456;
+  const otp = Math.floor(1000 + Math.random() * 9000);
+  return otp;
 }

@@ -58,7 +58,7 @@ export async function deleteAddress(
     const address = await addressModel.findByIdAndUpdate(
       new mongoose.Types.ObjectId(id),
       {
-        isDeleted: false,
+        isDeleted: true,
       }
     );
     if (address) {
